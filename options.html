@@ -1,0 +1,32 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<head><title>Опции</title></head>
+<script type="text/javascript">
+
+// Saves options to localStorage.
+function save_options() {
+	localStorage["login"] = document.getElementById("login").value;
+	localStorage["password"] = document.getElementById("password").value;
+	//chrome.browserAction.setBadgeText({text:localStorage["number"]});
+	//update status to let user know options were saved.
+  var status = document.getElementById("status");
+  status.innerHTML = "Настройки сохранены.";
+}
+
+// Restores select box state to saved value from localStorage.
+function restore_options() {
+	document.getElementById("login").value = localStorage["login"];
+	document.getElementById("password").value = localStorage["password"];
+}
+
+</script>
+
+<body onload="restore_options()">
+<div id="status"></div>
+<form action="" onsubmit="save_options();return false;">
+Логин: <input type="text" id="login" /><br>
+Пароль: <input type="text" id="password" /><br>
+<input type="submit" onclick="save_options()" value="Сохранить" />
+</form>
+</body>
+</html>

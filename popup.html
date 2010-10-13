@@ -1,0 +1,51 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<script>
+var url = 'http://torrents.tvoynet.ru/chrome.php?page=1';
+var req;
+var refresh_time = 60000;
+
+
+
+function main() {
+	req = new XMLHttpRequest();
+	req.onload = function () {
+		var doc = req.responseText;
+		if ( ! doc) {
+		}
+		else
+		{
+			document.getElementById('content').innerHTML = doc;
+		}
+	};
+	req.onerror = function (error) {
+		chrome.browserAction.setIcon({path:"icon_no.png"});
+		chrome.browserAction.setBadgeBackgroundColor({color:[0, 128, 128, 128]});
+		setText('?');
+		setTitle('Ошибка');
+	};
+	req.open("GET", url + '?' + Math.random(), true);
+	req.send(null);
+}
+
+
+
+
+function init() {
+	window.setInterval(function() {
+		main();
+	}, refresh_time);
+}
+
+main();
+init();
+
+</script>
+<body>
+<div style="width:320px;">
+<p><a target='_blank' href="http://torrents.tvoynet.ru/">Перейти</a> на трекер</p>
+<div id="content">
+</div>
+</div>
+</body>
+</html>

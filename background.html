@@ -1,0 +1,89 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<script>
+var url = 'http://torrents.tvoynet.ru/chrome.php';
+var message_url = 'http://torrents.tvoynet.ru/chrome.php?message';
+//var req;
+var refresh_time = 30000;
+
+
+
+function setText(text)
+{
+	chrome.browserAction.setBadgeText({text:text});
+}
+
+function setTitle(text)
+{
+	chrome.browserAction.setTitle({title:text});
+}
+
+
+
+function main() {
+	getRating();
+	getMessage();
+}
+
+function getRating()
+{
+	req = new XMLHttpRequest();
+	req.onload = function () {
+		var doc = req.responseText;
+		if ( ! doc) {
+			chrome.browserAction.setIcon({path:"icon_no.png"});
+			chrome.browserAction.setBadgeBackgroundColor({color:[0, 128, 128, 128]});
+			setText('?');
+			setTitle('Нужно авторизоваться на трекере');
+		}
+		else
+		{
+			chrome.browserAction.setIcon({path:"icon.png"});
+			chrome.browserAction.setBadgeBackgroundColor({color:[0, 200, 0, 100]});
+			setText(doc);
+			setTitle('Рейтинг: ' + doc);
+		}
+	};
+	req.onerror = function (error) {
+		chrome.browserAction.setIcon({path:"icon_no.png"});
+		chrome.browserAction.setBadgeBackgroundColor({color:[0, 128, 128, 128]});
+		setText('?');
+		setTitle('Ошибка');
+	};
+	req.open("GET", url + '?' + Math.random(), true);
+	req.send(null);
+}
+
+function getMessage()
+{
+	req = new XMLHttpRequest();
+	req.onload = function () {
+		var doc = req.responseText;
+		if (doc)
+		{
+			chrome.browserAction.setBadgeBackgroundColor({color:[0, 255, 0, 0]});
+			setText('+' + doc);
+			setTitle('Новых сообщений: ' + doc);
+		}
+	};
+	req.open("GET", message_url, true);
+	req.send(null);
+}
+
+
+
+
+
+function init() {
+	window.setInterval(function() {
+		main();
+	}, refresh_time);
+}
+
+main();
+init();
+
+</script>
+</head>
+</html>

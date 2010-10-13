@@ -1,0 +1,18 @@
+{
+	"name": "TVOYnet torrent",
+	"version": "0.1.4",
+	"update_url": "http://clients2.google.com/service/update2/crx",
+	"description": "Показывает рейтинг у трекера ТВОЙнэта",
+	"background_page": "background.html",
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_title": "Трекер",
+		"popup": "popup.html"
+	},
+	"permissions": [
+		"http://torrents.tvoynet.ru/*"
+	],
+	"icons": {
+		"128": "icon_big.png"
+	}
+}
