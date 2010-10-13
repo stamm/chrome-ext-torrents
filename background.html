@@ -4,7 +4,6 @@
 <script>
 var url = 'http://torrents.tvoynet.ru/chrome.php';
 var message_url = 'http://torrents.tvoynet.ru/chrome.php?message';
-//var req;
 var refresh_time = 30000;
 
 
@@ -28,9 +27,9 @@ function main() {
 
 function getRating()
 {
-	req = new XMLHttpRequest();
+	var req = new XMLHttpRequest();
 	req.onload = function () {
-		var doc = req.responseText;
+		doc = req.responseText;
 		if ( ! doc) {
 			chrome.browserAction.setIcon({path:"icon_no.png"});
 			chrome.browserAction.setBadgeBackgroundColor({color:[0, 128, 128, 128]});
@@ -57,14 +56,19 @@ function getRating()
 
 function getMessage()
 {
-	req = new XMLHttpRequest();
+	var req = new XMLHttpRequest();
 	req.onload = function () {
-		var doc = req.responseText;
+		doc = req.responseText;
 		if (doc)
 		{
 			chrome.browserAction.setBadgeBackgroundColor({color:[0, 255, 0, 0]});
 			setText('+' + doc);
 			setTitle('Новых сообщений: ' + doc);
+			message_count = doc;
+		}
+		else
+		{
+			message_count = false;
 		}
 	};
 	req.open("GET", message_url, true);
@@ -73,6 +77,14 @@ function getMessage()
 
 
 
+
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
+	if (changeInfo.url && changeInfo.url.indexOf('http://torrents.tvoynet.ru') == 0) {
+		console.log('Находимся на трекере');
+		main();
+	}
+});
 
 
 function init() {
