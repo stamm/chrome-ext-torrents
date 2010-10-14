@@ -1,10 +1,9 @@
 {
 	"name": "TVOYnet torrent",
-	"version": "0.2",
+	"version": "0.2.1",
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"description": "Показывает рейтинг у трекера ТВОЙнэта",
 	"background_page": "background.html",
-	"options_page": "options.html",
 	"browser_action": {
 		"default_icon": "icon.png",
 		"default_title": "Трекер",
