@@ -6,7 +6,7 @@ var url = 'http://torrents.tvoynet.ru/chrome.php';
 var message_url = 'http://torrents.tvoynet.ru/chrome.php?message';
 var refresh_time = 30000;
 
-
+var notification;
 
 function setText(text)
 {
@@ -62,9 +62,13 @@ function getMessage()
 		if (doc)
 		{
 			chrome.browserAction.setBadgeBackgroundColor({color:[0, 255, 0, 0]});
-			setText('+' + doc);
+			setText(doc);
 			setTitle('Новых сообщений: ' + doc);
 			message_count = doc;
+			if (localStorage["show_notification_message"])
+			{
+				showNotification('Личка', 'У вас есть непрочитанные сообщения. <a href="http://torrents.tvoynet.ru/message.php">Перейти к сообщениям</a>');
+			}
 		}
 		else
 		{
@@ -76,7 +80,18 @@ function getMessage()
 }
 
 
-
+function showNotification(title, text)
+{
+	notification = webkitNotifications.createNotification(
+		'icon_big.png',
+		title,
+		text
+	);
+	notification.show();
+	window.setInterval(function() {
+		notification.cancel();
+	}, 10000);
+}
 
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
@@ -85,6 +100,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
 		main();
 	}
 });
+
 
 
 function init() {

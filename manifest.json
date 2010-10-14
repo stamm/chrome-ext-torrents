@@ -4,6 +4,7 @@
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"description": "Показывает рейтинг у трекера ТВОЙнэта",
 	"background_page": "background.html",
+	"options_page": "options.html",
 	"browser_action": {
 		"default_icon": "icon.png",
 		"default_title": "Трекер",
@@ -11,6 +12,7 @@
 	},
 	"permissions": [
 		"tabs",
+		"notifications",
 		"http://torrents.tvoynet.ru/*"
 	],
 	"icons": {

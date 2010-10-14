@@ -5,18 +5,18 @@
 
 // Saves options to localStorage.
 function save_options() {
-	localStorage["login"] = document.getElementById("login").value;
-	localStorage["password"] = document.getElementById("password").value;
-	//chrome.browserAction.setBadgeText({text:localStorage["number"]});
-	//update status to let user know options were saved.
-  var status = document.getElementById("status");
-  status.innerHTML = "Настройки сохранены.";
+	localStorage["show_notification_message"] = document.getElementById("show_notification_message").checked ? true : false;
+	console.log('set value: ' + localStorage["show_notification_message"]);
+	var status = document.getElementById("status");
+	status.innerHTML = "Настройки сохранены.";
+	restore_options();
 }
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
-	document.getElementById("login").value = localStorage["login"];
-	document.getElementById("password").value = localStorage["password"];
+	console.log('restore value: ' + localStorage["show_notification_message"]);
+	document.getElementById("show_notification_message").checked = localStorage["show_notification_message"];
+	//document.getElementById("show_notification_message").checked = false;
 }
 
 </script>
@@ -24,9 +24,8 @@ function restore_options() {
 <body onload="restore_options()">
 <div id="status"></div>
 <form action="" onsubmit="save_options();return false;">
-Логин: <input type="text" id="login" /><br>
-Пароль: <input type="text" id="password" /><br>
-<input type="submit" onclick="save_options()" value="Сохранить" />
+Показывать информацию о новых личных сообщениях <input type="checkbox" id="show_notification_message" /><br>
+<input type="submit" value="Сохранить" />
 </form>
 </body>
 </html>
